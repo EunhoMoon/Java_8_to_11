@@ -1,9 +1,6 @@
 package com.study.java8to11;
 
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 public class Main {
 
@@ -11,7 +8,7 @@ public class Main {
         // 익명 함수 클래스
 //        RunSomething runSomething = new RunSomething() {
 //            @Override
-//            public void doIt() {
+//            public int doIt(int num) {
 //                System.out.println("Hello");
 //            }
 //        };
@@ -44,6 +41,39 @@ public class Main {
 
         UnaryOperator<Integer> plusTen3 = (n) -> n + 10;
         System.out.println(plusTen3.apply(10));
+
+        Main main = new Main();
+        main.run();
+    }
+
+    public void run() {
+        int baseNumber = 10;    // 변수 캡쳐, 사실상 final(effective final)
+
+        // 로컬 클래스
+        class LocalClass {
+            void printBaseNumber() {
+                int baseNumber = 11;
+                // 쉐도윙 : 해당 변수가 run()의 변수를 참조하지 않는다.(해당 클래스의 scope가 run의 scope를 가린다.) -> 같은 scope가 아니다.
+                System.out.println(baseNumber);
+            }
+        }
+
+        // 익명 클래스
+        Consumer<Integer> integerConsumer = new Consumer<Integer>() {
+            @Override
+            public void accept(Integer baseNumber) {
+                // 쉐도윙 : run()의 변수를 참조하지 않는다.(해당 클래스의 scope가 run의 scope를 가린다.) -> 같은 scope가 아니다.
+                System.out.println(baseNumber);
+            }
+        };
+
+        // 람다
+        IntConsumer printInt = (i) -> {
+            System.out.println("Print Int" + (i + baseNumber)); // run()과 같은 scope, 따라서 '쉐도윙'하지 않는다.
+        };
+
+//        baseNumber++; baseNumber를 뒤에서 바꾸면 effective final이 아니기 때문에 컴파일 에러가 난다.
+        printInt.accept(10);
     }
 
 }
