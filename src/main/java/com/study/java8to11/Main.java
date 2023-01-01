@@ -71,7 +71,6 @@ public class Main {
         IntConsumer printInt = (i) -> {
             System.out.println("Print Int" + (i + baseNumber)); // run()과 같은 scope, 따라서 '쉐도윙'하지 않는다.
         };
-
 //        baseNumber++; baseNumber를 뒤에서 바꾸면 effective final이 아니기 때문에 컴파일 에러가 난다.
         printInt.accept(10);
     }
